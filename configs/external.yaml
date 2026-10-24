@@ -1,0 +1,20 @@
+seed: 42
+external:
+  method: "grpo"
+  root: "third_party"
+  fetch: true
+  install: false
+  gpus: 4
+  rollouts: 8
+  thought_dropout: 0.5
+training:
+  train_file: "data/scienceqa/train.jsonl"
+  output_dir: "outputs/grpo"
+  steps: 1000
+  warmup_steps: 100
+  learning_rate: 0.000001
+  gradient_accumulation_steps: 8
+generation:
+  temperature: 0.7
+  top_p: 0.9
+  max_new_tokens: 2048

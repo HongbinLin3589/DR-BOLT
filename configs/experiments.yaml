@@ -1,0 +1,75 @@
+seed: 42
+output_dir: "outputs/experiments"
+experiments:
+  main_steps: 1000
+  diagnostic_steps: 500
+  resume: true
+  fail_fast: true
+  qualitative_case_ids: {}
+  suites: ["all", "main", "offline", "external", "correction", "sensitivity", "routers", "3dsrbench", "calibration", "diagnostics", "figures", "qualitative", "coverage", "resources", "protocol", "report"]
+objective:
+  alpha: 0.5
+  q: 0.7
+  beta: 1.0
+  gamma: 0.1
+  length_penalty: 0.05
+  correction: "modewise"
+  dpo_beta: 0.1
+training:
+  steps: 1000
+  warmup_steps: 100
+  batch_size: 1
+  gradient_accumulation: 8
+  world_size: 4
+  learning_rate: 0.000005
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  warmup_ratio: 0.1
+  lora_rank: 8
+  lora_alpha: 64
+  lora_dropout: 0.05
+  checkpoint_every: 25
+generation:
+  temperature: 0.7
+  top_p: 0.9
+  max_new_tokens: 2048
+bank:
+  num_fast: 7
+  num_slow: 3
+diagnostics:
+  prompts: 100
+  repeats: 20
+  bins: 5
+  samples_per_mode: 1000
+  replay_samples: 200
+datasets:
+  scienceqa:
+    repo_id: "derek-thomas/ScienceQA"
+    revision: "main"
+    splits: ["train", "validation", "test"]
+  virl39k:
+    repo_id: "TIGER-Lab/ViRL39K"
+    revision: "main"
+    annotation_file: "39Krelease.parquet"
+    image_archive: "images.zip"
+    splits: ["train"]
+  mathvision:
+    repo_id: "MathLLMs/MathVision"
+    revision: "main"
+    splits: ["test"]
+  dynamath:
+    repo_id: "DynaMath/DynaMath_Sample"
+    revision: "main"
+    splits: ["sample_variant1", "sample_variant2", "sample_variant3", "sample_variant4", "sample_variant5", "sample_variant6", "sample_variant7", "sample_variant8", "sample_variant9", "sample_variant10"]
+  mmmu_pro:
+    repo_id: "MMMU/MMMU_Pro"
+    config_name: "standard (10 options)"
+    revision: "main"
+    splits: ["test"]
+  3dsrbench:
+    repo_id: "ccvl/3DSRBench"
+    config_name: "benchmark"
+    revision: "main"
+    splits: ["test"]
+    train_fraction: 0.8
+    seed: 42

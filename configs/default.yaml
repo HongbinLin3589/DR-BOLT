@@ -1,0 +1,71 @@
+seed: 42
+output_dir: "outputs"
+data:
+  root: "data"
+  name: "scienceqa"
+  train_file: null
+model:
+  fast: "Qwen/Qwen3-VL-8B-Instruct"
+  fast_revision: "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b"
+  slow: "Qwen/Qwen3-VL-8B-Thinking"
+  slow_revision: "92f3c4b4feadd3a016ef468d103bb5f58b2a2c6b"
+  initial: "Qwen/Qwen3-VL-8B-Thinking"
+  initial_revision: "92f3c4b4feadd3a016ef468d103bb5f58b2a2c6b"
+  min_pixels: 4096
+  max_pixels: 1048576
+  attention: "sdpa"
+  precision: "bf16"
+generation:
+  temperature: 0.7
+  top_p: 0.9
+  max_new_tokens: 2048
+  batch_size: 1
+bank:
+  path: null
+  num_fast: 7
+  num_slow: 3
+  path_variant: "main"
+  score_references: false
+objective:
+  alpha: 0.5
+  beta: 1.0
+  gamma: 0.1
+  length_penalty: 0.05
+  correction: "modewise"
+  dpo_beta: 0.1
+training:
+  method: "dr_bolt"
+  steps: 1000
+  warmup_steps: 100
+  batch_size: 1
+  gradient_accumulation: 8
+  world_size: 4
+  learning_rate: 0.000005
+  weight_decay: 0.1
+  betas: [0.9, 0.95]
+  warmup_ratio: 0.1
+  max_grad_norm: 1.0
+  lora_rank: 8
+  lora_alpha: 64
+  lora_dropout: 0.05
+  lora_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  gradient_checkpointing: true
+  checkpoint_every: 100
+  resume: null
+  initial_checkpoint: null
+  replay_file: null
+  replay_every: 25
+  filter_all_wrong: false
+  group_normalize: false
+evaluation:
+  batch_size: 1
+  repeats: 1
+router:
+  epochs: 20
+  learning_rate: 0.001
+  batch_size: 256
+diagnostics:
+  limit: 1000
+  replay_samples: 200
+external:
+  root: "third_party"
